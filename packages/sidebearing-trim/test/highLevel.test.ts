@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { trimSidebearings } from "../src/vanilla/highLevel";
+import { trimSidebearings } from "../src/vanilla/trimSidebearings";
 
 describe("trimSidebearings", () => {
   it("wraps text and can restore original content", async () => {
