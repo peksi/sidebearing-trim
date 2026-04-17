@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>sidebearing-trim</title>
+  <script>
+    // GitHub Pages SPA redirect: store the path and redirect to root.
+    // The root index.html will restore the path using history.replaceState.
+    var path = location.pathname + location.search + location.hash;
+    sessionStorage.setItem('spa-redirect', path);
+    location.replace(location.origin + location.pathname.split('/').slice(0, 2).join('/') + '/');
+  </script>
+</head>
+<body></body>
+</html>

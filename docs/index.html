@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // GitHub Pages SPA: restore path saved by 404.html
+      (function() {
+        var redirect = sessionStorage.getItem('spa-redirect');
+        if (redirect) {
+          sessionStorage.removeItem('spa-redirect');
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <title>sidebearing-trim — Optical text alignment for the web</title>
+    <meta name="description" content="Reads OpenType glyph metrics and applies a negative line-start offset so columns align by visible ink, not by glyph box origin." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

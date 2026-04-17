@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla sidebearing-trim example</title>
+    <style>
+      .sample {
+        font-size: 72px;
+        line-height: 1.25;
+        white-space: pre-wrap;
+        border-left: 1px solid red;
+      }
+      .sb-glyph {
+        position: relative;
+      }
+      .sb-glyph::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -0.1em;
+        bottom: -0.1em;
+        width: var(--lsb-em, 0);
+        background: rgba(37, 99, 235, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <p id="text" class="sample"></p>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

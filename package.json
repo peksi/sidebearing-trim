@@ -1,0 +1,12 @@
+{
+  "name": "sidebearing-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -F sidebearing-trim build && pnpm -F docs build",
+    "test": "pnpm -F sidebearing-trim test",
+    "lint": "pnpm -F sidebearing-trim lint",
+    "dev:docs": "pnpm -F docs dev"
+  }
+}
