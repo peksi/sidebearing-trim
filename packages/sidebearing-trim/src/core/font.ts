@@ -40,55 +40,68 @@ export async function loadFont(source: string | ArrayBuffer): Promise<opentype.F
  * sidebearing metrics are being read from the wrong font file.
  */
 export async function warnFontMismatch(font: opentype.Font, element: Element): Promise<void> {
-  const parsedFamily: string | undefined =
-    font.getEnglishName("fontFamily") ?? font.getEnglishName("preferredFamily") ?? undefined;
-  if (!parsedFamily) return;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const getEnglishName = (font as any).getEnglishName as
+      | ((name: "fontFamily" | "preferredFamily") => string | undefined)
+      | undefined;
+    if (typeof getEnglishName !== "function") return;
 
-  const computedRaw = getComputedStyle(element).fontFamily;
-  // getComputedStyle returns a comma-separated list; take the first entry and strip quotes.
-  const computedFamily = computedRaw.split(",")[0].trim().replace(/['"]/g, "");
+    const parsedFamily: string | undefined =
+      getEnglishName("fontFamily") ?? getEnglishName("preferredFamily") ?? undefined;
+    if (!parsedFamily) return;
 
-  const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+    const computedRaw = getComputedStyle(element).fontFamily;
+    // getComputedStyle returns a comma-separated list; take the first entry and strip quotes.
+    const computedFamily = computedRaw.split(",")[0].trim().replace(/['"]/g, "");
 
-  // Check 1 (name table): does the WOFF file match the element's CSS font-family declaration?
-  if (
-    !normalize(computedFamily).includes(normalize(parsedFamily)) &&
-    !normalize(parsedFamily).includes(normalize(computedFamily))
-  ) {
-    console.warn(
-      `[sidebearing-trim] Font mismatch detected.\n` +
-        `  fontSource resolved to: "${parsedFamily}"\n` +
-        `  Element renders:        "${computedFamily}"\n` +
-        `  Sidebearing metrics may be inaccurate. Make sure fontSource points to the same font the element uses.`,
-    );
-    return;
-  }
+    const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
 
-  // Check 2 (CSS Font Loading API): is the declared font actually loaded in the browser?
-  // If not, the browser is silently rendering a fallback while metrics were read from the WOFF.
-  await document.fonts.ready;
-  const computedStyle = getComputedStyle(element);
-  const fontSize = computedStyle.fontSize;
-  if (!document.fonts.check(`${fontSize} "${computedFamily}"`)) {
-    console.warn(
-      `[sidebearing-trim] Font not loaded in browser: "${computedFamily}" is declared on the element but not available via document.fonts.\n` +
-        `  The element may be rendering a fallback font, making sidebearing metrics inaccurate.\n` +
-        `  Ensure the font is fully loaded before calling trimSidebearings.`,
-    );
-  }
-
-  // Check 3 (OS/2 table): does the WOFF weight class match the element's rendered font-weight?
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const parsedWeight: number | undefined = (font as any).tables?.os2?.usWeightClass;
-  if (parsedWeight !== undefined) {
-    const computedWeight = parseFloat(computedStyle.fontWeight);
-    if (Number.isFinite(computedWeight) && Math.abs(computedWeight - parsedWeight) >= 100) {
+    // Check 1 (name table): does the WOFF file match the element's CSS font-family declaration?
+    if (
+      !normalize(computedFamily).includes(normalize(parsedFamily)) &&
+      !normalize(parsedFamily).includes(normalize(computedFamily))
+    ) {
       console.warn(
-        `[sidebearing-trim] Font weight mismatch detected.\n` +
-          `  fontSource weight: ${parsedWeight}\n` +
-          `  Element renders:   ${computedWeight}\n` +
-          `  Sidebearing metrics may be inaccurate. Make sure fontSource points to the same weight the element uses.`,
+        `[sidebearing-trim] Font mismatch detected.\n` +
+          `  fontSource resolved to: "${parsedFamily}"\n` +
+          `  Element renders:        "${computedFamily}"\n` +
+          `  Sidebearing metrics may be inaccurate. Make sure fontSource points to the same font the element uses.`,
       );
+      return;
     }
+
+    const computedStyle = getComputedStyle(element);
+    const fontSize = computedStyle.fontSize;
+    if (typeof document !== "undefined" && "fonts" in document) {
+      // Check 2 (CSS Font Loading API): is the declared font actually loaded in the browser?
+      // If not, the browser is silently rendering a fallback while metrics were read from the WOFF.
+      await document.fonts.ready;
+      if (!document.fonts.check(`${fontSize} "${computedFamily}"`)) {
+        console.warn(
+          `[sidebearing-trim] Font not loaded in browser: "${computedFamily}" is declared on the element but not available via document.fonts.\n` +
+            `  The element may be rendering a fallback font, making sidebearing metrics inaccurate.\n` +
+            `  Ensure the font is fully loaded before calling trimSidebearings.`,
+        );
+      }
+    }
+
+    // Check 3 (OS/2 table): does the WOFF weight class match the element's rendered font-weight?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const parsedWeight: number | undefined = (font as any).tables?.os2?.usWeightClass;
+    if (parsedWeight !== undefined) {
+      const computedWeight = parseFloat(computedStyle.fontWeight);
+      if (Number.isFinite(computedWeight) && Math.abs(computedWeight - parsedWeight) >= 100) {
+        console.warn(
+          `[sidebearing-trim] Font weight mismatch detected.\n` +
+            `  fontSource weight: ${parsedWeight}\n` +
+            `  Element renders:   ${computedWeight}\n` +
+            `  Sidebearing metrics may be inaccurate. Make sure fontSource points to the same weight the element uses.`,
+        );
+      }
+    }
+  } catch {
+    // Dev diagnostics should never break initialization or test execution.
+    return;
   }
 }
