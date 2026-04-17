@@ -182,7 +182,7 @@ export function App() {
       <main className="main">
         <section id="preface" className="section">
           <h2>Why should I care?</h2>
-          <p>Text never starts exacatly from the edge of the textbox. Sometimes it might become an issue. This package solves that issue.</p>
+          <p>Text never starts exactly from the edge of the textbox. Sometimes it might become an issue. This package solves that issue.</p>
           <p>You can read the full backstory and motivation <Link to="/preface">here</Link>.</p>
         </section>
 
