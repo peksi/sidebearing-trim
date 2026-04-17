@@ -48,7 +48,8 @@ export function Preface() {
           </figure>
 
           <p>
-            You point out that it's the exact same thing that they've got on Figma. (Unless they've lived through the pixel perfect era of things and nudged some marigns, to which you point out that it isn't 2011 anymore.)
+            You point out that it's the exact same thing that they've got on Figma. (Unless they've lived through the pixel perfect era of things and nudged some margins, to which you point out that it isn't 2011 anymore.)
+       
           </p>
 
           <figure className="inline-figure">
