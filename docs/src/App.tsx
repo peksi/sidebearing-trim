@@ -170,7 +170,7 @@ export function App() {
         <section id="preface" className="section">
           <h2>Why should I care?</h2>
           <p>Text never starts straight from the edge of the textbox. Sometimes it might become an issue. This package solves that issue.</p>
-          <p>You can read the full backstory and motivation <a href="/preface">here</a>.</p>
+          <p>You can read the full backstory and motivation <Link to="/preface">here</Link>.</p>
         </section>
 
         {/* ── Usage ── */}
