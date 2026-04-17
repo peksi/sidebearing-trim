@@ -105,6 +105,18 @@ body {
 
 .nav-links a:hover { color: var(--ink); }
 
+.hero-github-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: -0.25rem 0 1.2rem;
+  line-height: 1;
+}
+
+.hero-github-badge img {
+  display: block;
+  height: 20px;
+}
+
 /* ─── Hero ──────────────────────────────────────────────────── */
 .hero {
   background: var(--dark);

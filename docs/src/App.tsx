@@ -117,6 +117,19 @@ export function App() {
       <header className="hero">
         <div className="hero-inner">
         <div className="hero-content">
+        <a
+            href="https://github.com/peksi/sidebearing-trim"
+            target="_blank"
+            rel="noreferrer"
+            className="hero-github-badge"
+            aria-label="View sidebearing-trim on GitHub"
+          >
+            <img
+              src="https://img.shields.io/github/stars/peksi/sidebearing-trim?style=social"
+              alt="GitHub stars"
+              loading="lazy"
+            />
+          </a>
           <h1 className="hero-title">
             sidebearing<span className="hero-dash">-</span>trim
           </h1>
