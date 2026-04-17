@@ -30,7 +30,7 @@ export function Preface() {
             <div className="article-card">
               <img
                 className="article-card-img"
-                src="/middagsfjellet.jpeg"
+                src={`${import.meta.env.BASE_URL}middagsfjellet.jpeg`}
                 alt=""
                 aria-hidden="true"
               />
@@ -52,7 +52,7 @@ export function Preface() {
           </p>
 
           <figure className="inline-figure">
-            <img src="/figma-example.gif" alt="Figma showing the card with misaligned title" className="inline-figure-img" />
+            <img src={`${import.meta.env.BASE_URL}figma-example.gif`} alt="Figma showing the card with misaligned title" className="inline-figure-img" />
             <figcaption className="article-card-caption">Non-constant left-align haunts designers in Figma too.</figcaption>
           </figure>
 
@@ -92,7 +92,7 @@ export function Preface() {
             <div className="article-card">
               <img
                 className="article-card-img"
-                src="/middagsfjellet.jpeg"
+                src={`${import.meta.env.BASE_URL}middagsfjellet.jpeg`}
                 alt=""
                 aria-hidden="true"
               />
