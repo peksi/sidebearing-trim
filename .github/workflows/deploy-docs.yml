@@ -36,7 +36,7 @@ jobs:
       - name: Build docs
         run: pnpm -F docs build
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_BASE_PATH: /
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs/dist
