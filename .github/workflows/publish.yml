@@ -24,5 +24,3 @@ jobs:
         run: pnpm install
       - name: Publish
         run: pnpm --filter sidebearing-trim publish --provenance --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
