@@ -1,11 +1,11 @@
 export const DEFAULT_OVERLAY_VARIABLE = "--lsb-em";
 
 export function getTrimStyleValue(trimEm: number): {
-  trimMarginInlineStart: string;
+  trimLeft: string;
   overlayWidth: string;
 } {
   return {
-    trimMarginInlineStart: `${-trimEm}em`,
+    trimLeft: `${-trimEm}em`,
     overlayWidth: `${trimEm}em`,
   };
 }

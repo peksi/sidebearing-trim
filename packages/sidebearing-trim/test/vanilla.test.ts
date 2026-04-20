@@ -41,7 +41,8 @@ describe("applySidebearingTrim", () => {
     const result = applySidebearingTrim({ text, elements, font });
 
     expect([...result.lineStartIndexes]).toEqual([0, 1]);
-    expect(elements[0].style.marginInlineStart).toBe("-0.05em");
+    expect(elements[0].style.position).toBe("relative");
+    expect(elements[0].style.left).toBe("-0.05em");
     expect(elements[0].style.getPropertyValue("--lsb-em")).toBe("0.05em");
   });
 });
