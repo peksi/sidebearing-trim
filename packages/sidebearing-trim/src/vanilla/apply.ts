@@ -35,6 +35,12 @@ export function applySidebearingTrim(
 
   const trimmedIndexes = new Set<number>();
 
+  // Track the trim amount for the current line so all characters on the same
+  // line shift by the same amount
+  let currentLineTrimLeft = "";
+  let currentLineOverlayWidth = "";
+  let currentLineHasTrim = false;
+
   for (let index = 0; index < tokens.length; index += 1) {
     const char = tokens[index];
     const element = elements[index];
@@ -42,33 +48,32 @@ export function applySidebearingTrim(
       continue;
     }
 
-    if (!lineStartIndexes.has(index)) {
-      // Reset styles from any previous recompute — a token that was a line-start
-      // on the last run may no longer be one after a layout change (e.g. resize).
-      element.style.marginInlineStart = "";
-      if (applyOverlayVariable) {
-        element.style.removeProperty(overlayVariable);
+    if (lineStartIndexes.has(index)) {
+      const glyph = font.charToGlyph(char);
+      const trimEm = computeTrimEm({
+        leftSideBearing: glyph.leftSideBearing,
+        unitsPerEm: font.unitsPerEm,
+      });
+      const styleValues = getTrimStyleValue(trimEm);
+      currentLineTrimLeft = styleValues.trimLeft;
+      currentLineOverlayWidth = styleValues.overlayWidth;
+      currentLineHasTrim = trimEnabled && trimEm !== 0;
+      if (currentLineHasTrim) {
+        trimmedIndexes.add(index);
       }
-      continue;
     }
 
-    const glyph = font.charToGlyph(char);
-    const trimEm = computeTrimEm({
-      leftSideBearing: glyph.leftSideBearing,
-      unitsPerEm: font.unitsPerEm,
-    });
-    const styleValues = getTrimStyleValue(trimEm);
-
-    if (trimEnabled) {
-      element.style.marginInlineStart = styleValues.trimMarginInlineStart;
-      trimmedIndexes.add(index);
-    } else {
-      // Trim is disabled — clear any previously applied margin.
-      element.style.marginInlineStart = "";
-    }
+    // Always keep position:relative so `left` can transition smoothly.
+    // Animate left between the trim offset and 0 rather than removing it.
+    element.style.position = "relative";
+    element.style.left = currentLineHasTrim ? currentLineTrimLeft : "0em";
 
     if (applyOverlayVariable) {
-      element.style.setProperty(overlayVariable, styleValues.overlayWidth);
+      if (lineStartIndexes.has(index) && currentLineHasTrim) {
+        element.style.setProperty(overlayVariable, currentLineOverlayWidth);
+      } else {
+        element.style.removeProperty(overlayVariable);
+      }
     }
   }
 

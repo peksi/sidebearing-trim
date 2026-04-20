@@ -24,7 +24,8 @@ describe("trimSidebearings", () => {
 
     const wrapped = element.querySelectorAll<HTMLSpanElement>("span[data-sb-glyph='1']");
     expect(wrapped.length).toBeGreaterThan(0);
-    expect(wrapped[0]?.style.marginInlineStart).toBe("-0.04em");
+    expect(wrapped[0]?.style.position).toBe("relative");
+    expect(wrapped[0]?.style.left).toBe("-0.04em");
 
     controller.destroy();
     expect(element.textContent).toBe("Ab\nCd");
