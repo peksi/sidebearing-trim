@@ -1,7 +1,15 @@
 {
   "name": "sidebearing-trim",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Trim line-start sidebearing using font metrics for vanilla JS and React.",
+  "homepage": "https://sidebearing-trim.js.org/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peksi/sidebearing-trim.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peksi/sidebearing-trim/issues"
+  },
   "license": "MIT",
   "keywords": [
     "typography",
