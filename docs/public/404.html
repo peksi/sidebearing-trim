@@ -8,7 +8,7 @@
     // The root index.html will restore the path using history.replaceState.
     var path = location.pathname + location.search + location.hash;
     sessionStorage.setItem('spa-redirect', path);
-    location.replace(location.origin + location.pathname.split('/').slice(0, 2).join('/') + '/');
+    location.replace(location.origin + '/');
   </script>
 </head>
 <body></body>
