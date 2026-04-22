@@ -1,6 +1,6 @@
 {
   "name": "sidebearing-trim",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Trim line-start sidebearing using font metrics for vanilla JS and React.",
   "homepage": "https://sidebearing-trim.js.org/",
   "repository": {
