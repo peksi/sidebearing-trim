@@ -5,7 +5,7 @@ Align text by visible ink, not by glyph box origin. Reads OpenType metrics to me
 ## Install
 
 ```bash
-npm install sidebearing-trim opentype.js
+npm install sidebearing-trim
 ```
 
 ## Usage

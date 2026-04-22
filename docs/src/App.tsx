@@ -287,11 +287,12 @@ export function App() {
 
           <div className="api-entry">
             <code className="api-sig">
-              trimSidebearings(elements, fontSource, options?)
+              trimSidebearings(targets, fontSource, options?)
             </code>
             <p>
               Vanilla JS function. Measures sidebearing for each element and
-              applies a negative (or positive) <code>margin-inline-start</code>.
+              applies <code>position: relative</code> and a negative{" "}
+              <code>left</code> offset to each line-start glyph span.
             </p>
             <table className="api-table">
               <thead>
@@ -304,10 +305,10 @@ export function App() {
               <tbody>
                 <tr>
                   <td>
-                    <code>elements</code>
+                    <code>targets</code>
                   </td>
                   <td>
-                    <code>Element | NodeList</code>
+                    <code>HTMLElement | Iterable&lt;HTMLElement&gt; | ArrayLike&lt;HTMLElement&gt;</code>
                   </td>
                   <td>Target element(s) to trim</td>
                 </tr>
@@ -316,18 +317,60 @@ export function App() {
                     <code>fontSource</code>
                   </td>
                   <td>
-                    <code>string</code>
+                    <code>string | ArrayBuffer | Font</code>
                   </td>
-                  <td>URL to the WOFF font file</td>
+                  <td>URL to a <code>.woff</code> file, raw font bytes, or a pre-parsed opentype.js <code>Font</code> object</td>
                 </tr>
                 <tr>
                   <td>
                     <code>options</code>
                   </td>
                   <td>
-                    <code>object?</code>
+                    <code>TrimSidebearingsOptions</code>
                   </td>
-                  <td>Optional configuration</td>
+                  <td>Optional configuration — see below</td>
+                </tr>
+              </tbody>
+            </table>
+            <table className="api-table">
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Type</th>
+                  <th>Default</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>trimEnabled</code></td>
+                  <td><code>boolean</code></td>
+                  <td><code>true</code></td>
+                  <td>Apply trim. Set to <code>false</code> to measure without trimming</td>
+                </tr>
+                <tr>
+                  <td><code>observeResize</code></td>
+                  <td><code>boolean</code></td>
+                  <td><code>true</code></td>
+                  <td>Re-run on window resize</td>
+                </tr>
+                <tr>
+                  <td><code>applyOverlayVariable</code></td>
+                  <td><code>boolean</code></td>
+                  <td><code>true</code></td>
+                  <td>Set <code>--lsb-em</code> CSS variable for overlay/debug use</td>
+                </tr>
+                <tr>
+                  <td><code>overlayVariable</code></td>
+                  <td><code>string</code></td>
+                  <td><code>"--lsb-em"</code></td>
+                  <td>Name of the CSS variable</td>
+                </tr>
+                <tr>
+                  <td><code>spanClassName</code></td>
+                  <td><code>string</code></td>
+                  <td><code>"sb-glyph"</code></td>
+                  <td>Class applied to each injected glyph span</td>
                 </tr>
               </tbody>
             </table>
@@ -351,33 +394,39 @@ export function App() {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <code>fontSource</code>
-                  </td>
-                  <td>
-                    <code>string</code>
-                  </td>
-                  <td>URL to the WOFF font file</td>
+                  <td><code>fontSource</code></td>
+                  <td><code>string | ArrayBuffer | Font</code></td>
+                  <td>URL to a <code>.woff</code> file, raw font bytes, or a pre-parsed <code>Font</code> object</td>
                 </tr>
                 <tr>
-                  <td>
-                    <code>trim</code>
-                  </td>
-                  <td>
-                    <code>boolean</code>
-                  </td>
-                  <td>Enable or disable trimming</td>
+                  <td><code>as</code></td>
+                  <td><code>ElementType</code></td>
+                  <td>HTML element to render (default: <code>span</code>)</td>
                 </tr>
                 <tr>
-                  <td>
-                    <code>as</code>
-                  </td>
-                  <td>
-                    <code>string</code>
-                  </td>
-                  <td>
-                    HTML element to render (default: <code>span</code>)
-                  </td>
+                  <td><code>trim</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Enable or disable trimming (default: <code>true</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>overlay</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Set <code>--lsb-em</code> CSS variable (default: <code>true</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>overlayVariable</code></td>
+                  <td><code>string</code></td>
+                  <td>Name of the CSS variable (default: <code>"--lsb-em"</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>glyphClassName</code></td>
+                  <td><code>string</code></td>
+                  <td>Class applied to each injected glyph span (default: <code>"sb-glyph"</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>observeResize</code></td>
+                  <td><code>boolean</code></td>
+                  <td>Re-run on window resize (default: <code>true</code>)</td>
                 </tr>
               </tbody>
             </table>

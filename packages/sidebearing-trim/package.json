@@ -46,8 +46,10 @@
     "lint": "tsc --noEmit -p tsconfig.json",
     "prepublishOnly": "npm run build && npm run test"
   },
+  "dependencies": {
+    "opentype.js": "^1.3.4"
+  },
   "peerDependencies": {
-    "opentype.js": "^1.3.4",
     "react": ">=18"
   },
   "peerDependenciesMeta": {
