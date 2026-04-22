@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Sidebearing } from "sidebearing-trim/react";
 import { GlyphDiagram } from "./GlyphDiagram";
@@ -7,6 +7,10 @@ const FONT_SOURCE = "https://cdn.jsdelivr.net/npm/@fontsource/work-sans/files/wo
 
 export function Preface() {
   const [trimEnabled, setTrimEnabled] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
