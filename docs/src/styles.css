@@ -639,7 +639,13 @@ strong { font-weight: 600; }
 }
 
 /* ─── API ───────────────────────────────────────────────────── */
-.api-entry { margin-bottom: 2.75rem; }
+.api-entry {
+  margin-bottom: 2.75rem;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.api-entry .api-table + .api-table { margin-top: 1rem; }
 
 .api-sig {
   font-family: var(--font-mono);
@@ -659,6 +665,8 @@ strong { font-weight: 600; }
 
 .api-table {
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 0.875rem;
   border: 1px solid var(--rule);
@@ -684,9 +692,42 @@ strong { font-weight: 600; }
   border-bottom: 1px solid var(--rule);
   vertical-align: top;
   line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.api-table td:nth-child(2) {
+  overflow-wrap: anywhere;
+}
+
+.api-table td:nth-child(2) code {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .api-table tr:last-child td { border-bottom: none; }
+
+/* 3-column: Parameter/Prop · Type · Description */
+.api-table:not(:has(th:nth-child(4))) th:nth-child(1),
+.api-table:not(:has(th:nth-child(4))) td:nth-child(1) { width: 24%; }
+
+.api-table:not(:has(th:nth-child(4))) th:nth-child(2),
+.api-table:not(:has(th:nth-child(4))) td:nth-child(2) { width: 36%; }
+
+.api-table:not(:has(th:nth-child(4))) th:nth-child(3),
+.api-table:not(:has(th:nth-child(4))) td:nth-child(3) { width: 40%; }
+
+/* 4-column options table */
+.api-table:has(th:nth-child(4)) th:nth-child(1),
+.api-table:has(th:nth-child(4)) td:nth-child(1) { width: 20%; }
+
+.api-table:has(th:nth-child(4)) th:nth-child(2),
+.api-table:has(th:nth-child(4)) td:nth-child(2) { width: 22%; }
+
+.api-table:has(th:nth-child(4)) th:nth-child(3),
+.api-table:has(th:nth-child(4)) td:nth-child(3) { width: 16%; }
+
+.api-table:has(th:nth-child(4)) th:nth-child(4),
+.api-table:has(th:nth-child(4)) td:nth-child(4) { width: 42%; }
 
 /* ─── Limitations ───────────────────────────────────────────── */
 .limitations-list {
@@ -773,4 +814,13 @@ p code, li code {
   .nav-links { gap: 1.25rem; }
 
   .font-select-row { margin-left: 0; }
+
+  .api-table {
+    font-size: 0.8125rem;
+  }
+
+  .api-table th,
+  .api-table td {
+    padding: 0.5rem 0.625rem;
+  }
 }
